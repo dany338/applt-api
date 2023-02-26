@@ -7,7 +7,7 @@ class UsersService {
 
   async create(data) {
     const hash = await bcrypt.hash(data.password, 10);
-    const user = await models.User.create({ ...data, password: hash }, { include: ['company'] });
+    const user = await models.User.create({ ...data, password: hash }, { include: ['companies'] });
     delete user.dataValues.password;
     return user;
   }
