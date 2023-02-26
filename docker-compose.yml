@@ -1,0 +1,39 @@
+version: '3.3'
+
+services:
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=invoices
+      - POSTGRES_USER=invoices
+      - POSTGRES_PASSWORD=invoices.123
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@mail.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports:
+      - 5050:80
+  mysql:
+    image: mysql:5
+    environment:
+      - MYSQL_DATABASE=invoices
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=invoices.123
+      - MYSQL_PORT=3306
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - MYSQL_ROOT_PASSWORD=invoices.123
+      - PMA_HOST=mysql
+    ports:
+      - 8080:80
