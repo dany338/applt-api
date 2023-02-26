@@ -11,7 +11,7 @@ class CompaniesService {
   }
 
   async findByUser(userId) {
-    const companies = await models.Invoice.findAll({
+    const companies = await models.Company.findAll({
       where: {
         updatedUser: userId,
       },
