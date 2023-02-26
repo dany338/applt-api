@@ -3,9 +3,7 @@ const jwt = require('jsonwebtoken');
 const secret = 'mysecretsshhh';
 const payload = {
   sub: 1,
-  name: 'John Doe',
   role: 'admin',
-  admin: true,
 };
 
 function signToken(payload, secret) {
