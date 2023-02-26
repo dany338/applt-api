@@ -12,6 +12,16 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.DataTypes.INTEGER
       },
+      firstName: {
+        allowNull: false,
+        type: Sequelize.DataTypes.STRING,
+        field: 'first_name',
+      },
+      lastName: {
+        allowNull: false,
+        type: Sequelize.DataTypes.STRING,
+        field: 'last_name',
+      },
       email: {
         allowNull: false,
         type: Sequelize.DataTypes.STRING,
@@ -40,10 +50,34 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.DataTypes.INTEGER
       },
-      date: {
+      userId: {
+        allowNull: true,
+        type: Sequelize.DataTypes.INTEGER,
+        field: 'user_id',
+        references: {
+          model: USER_TABLE,
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+      },
+      nit: {
         allowNull: false,
         type: Sequelize.DataTypes.STRING,
-        field: 'date_invoice',
+        unique: true,
+      },
+      name: {
+        allowNull: false,
+        type: Sequelize.DataTypes.STRING,
+        unique: true,
+      },
+      address: {
+        allowNull: false,
+        type: Sequelize.DataTypes.STRING,
+      },
+      phone: {
+        allowNull: false,
+        type: Sequelize.DataTypes.STRING,
       },
       createdAt: {
         allowNull: false,
