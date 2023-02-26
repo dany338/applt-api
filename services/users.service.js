@@ -6,29 +6,24 @@ class UsersService {
   constructor() {}
 
   async create(data) {
-    // const user = await models.User.create(data);
     const hash = await bcrypt.hash(data.password, 10);
-    const user = await models.User.create({ ...data, password: hash }, { include: ['cashier'] });
-    // const cashier = await models.Cashier.create({ userId: user.id, code: data.code, firstName: data.firstName, lastName: data.lastName });
-    // if (cashier) {
-    //   user.cashier = cashier;
-    // }
+    const user = await models.User.create({ ...data, password: hash }, { include: ['company'] });
     delete user.dataValues.password;
     return user;
   }
 
   async find() {
     const users = await models.User.findAll({
-      attributes: ['id', 'email', 'role'],
+      attributes: ['id', 'email', 'role', 'firstName', 'lastName'],
       include: [
         {
-          model: models.Cashier,
-          as: 'cashier',
-          attributes: ['id', 'code', 'firstName', 'lastName'],
+          model: models.Company,
+          as: 'companies',
+          attributes: ['id', 'nit', 'name', 'address', 'phone'],
         },
       ],
       order: [
-        ['id', 'ASC'],
+        ['id', 'DESC'],
       ]
     });
     return users;
@@ -38,9 +33,9 @@ class UsersService {
     const user = await models.User.findByPk(id, {
       include: [
         {
-          model: models.Cashier,
-          as: 'cashier',
-          attributes: ['id', 'code', 'firstName', 'lastName'],
+          model: models.Company,
+          as: 'companies',
+          attributes: ['id', 'nit', 'name', 'address', 'phone'],
         },
       ],
     });
@@ -52,9 +47,7 @@ class UsersService {
 
   async update(id, changes) {
     let user = await this.findOne(id);
-    const { cashier, ...newChanges } = changes;
-    await user.update(newChanges);
-    await user.cashier.update(cashier);
+    await user.update(changes);
     user = await this.findOne(id);
     return user;
   }
@@ -67,15 +60,15 @@ class UsersService {
 
   async findByEmail(email) {
     const user = await models.User.findOne({
-      attributes: ['id', 'email', 'role', 'password'],
+      attributes: ['id', 'email', 'role', 'firstName', 'lastName'],
       where: {
         email,
       },
       include: [
         {
-          model: models.Cashier,
-          as: 'cashier',
-          attributes: ['id', 'code', 'firstName', 'lastName'],
+          model: models.Company,
+          as: 'companies',
+          attributes: ['id', 'nit', 'name', 'address', 'phone'],
         },
       ],
     });

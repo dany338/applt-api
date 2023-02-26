@@ -6,9 +6,9 @@ services:
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_DB=invoices
-      - POSTGRES_USER=invoices
-      - POSTGRES_PASSWORD=invoices.123
+      - POSTGRES_DB=apiapplt
+      - POSTGRES_USER=apiapplt
+      - POSTGRES_PASSWORD=apiapplt.123
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
   pgadmin:
@@ -21,9 +21,9 @@ services:
   mysql:
     image: mysql:5
     environment:
-      - MYSQL_DATABASE=invoices
+      - MYSQL_DATABASE=apiapplt
       - MYSQL_USER=root
-      - MYSQL_ROOT_PASSWORD=invoices.123
+      - MYSQL_ROOT_PASSWORD=apiapplt.123
       - MYSQL_PORT=3306
     ports:
       - 3306:3306
@@ -33,7 +33,7 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     environment:
-      - MYSQL_ROOT_PASSWORD=invoices.123
+      - MYSQL_ROOT_PASSWORD=apiapplt.123
       - PMA_HOST=mysql
     ports:
       - 8080:80

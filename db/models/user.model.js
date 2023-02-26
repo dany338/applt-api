@@ -9,6 +9,16 @@ const UserSchema = {
     primaryKey: true,
     type: DataTypes.INTEGER
   },
+  firstName: {
+    allowNull: false,
+    type: DataTypes.STRING,
+    field: 'first_name',
+  },
+  lastName: {
+    allowNull: false,
+    type: DataTypes.STRING,
+    field: 'last_name',
+  },
   email: {
     allowNull: false,
     type: DataTypes.STRING,
@@ -26,7 +36,7 @@ const UserSchema = {
   role: {
     allowNull: false,
     type: Sequelize.DataTypes.STRING,
-    defaultValue: 'cashier'
+    defaultValue: 'external'
   },
   createdAt: {
     allowNull: false,
@@ -38,8 +48,8 @@ const UserSchema = {
 
 class User extends Model {
   static associate(models) {
-    this.hasOne(models.Cashier, {
-      as: 'cashier',
+    this.hasMany(models.Company, {
+      as: 'companies',
       foreignKey: 'userId',
     });
   }

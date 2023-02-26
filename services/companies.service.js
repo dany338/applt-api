@@ -1,57 +1,41 @@
 const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
-// const { Op } = require('sequelize');
 
-class InvoicesService {
+class CompaniesService {
   constructor() {}
 
   async create(data) {
-    const invoice = await models.Invoice.create(data);
-    const newLines = data.lines.map(line => ({ ...line, invoiceId: invoice.id }));
-    const lines = await models.Line.bulkCreate(newLines);
-    if (lines) {
-      invoice.lines = lines;
-    }
-    const invoices = this.findOne(invoice.id);
-    return invoices;
+    const company = await models.Company.create(data);
+    const companies = this.findOne(company.id);
+    return companies;
   }
 
   async findByUser(userId) {
-    const invoices = await models.Invoice.findAll({
+    const companies = await models.Invoice.findAll({
       where: {
-        updatedUser: userId, // '$cashier.user.id$'
+        updatedUser: userId,
       },
       include: [
         {
-          model: models.Client,
-          as: 'client',
-          attributes: ['id', 'dni', 'firstName', 'lastName'],
-        },
-        {
-          model: models.Line,
-          as: 'lines',
-          attributes: ['id', 'description', 'amount'],
+          model: models.User,
+          as: 'user',
+          attributes: ['id', 'email', 'role', 'firstName', 'lastName'],
         }
       ],
       order: [
         ['id', 'DESC'],
       ]
     });
-    return invoices;
+    return companies;
   }
 
   async find(query) {
     const options = {
       include: [
         {
-          model: models.Client,
-          as: 'client',
-          attributes: ['id', 'dni', 'firstName', 'lastName'],
-        },
-        {
-          model: models.Line,
-          as: 'lines',
-          attributes: ['id', 'description', 'amount'],
+          model: models.User,
+          as: 'user',
+          attributes: ['id', 'email', 'role', 'firstName', 'lastName'],
         }
       ],
       order: [
@@ -64,59 +48,42 @@ class InvoicesService {
       options.limit = limit;
       options.offset = offset;
     }
-    const { date, clientId } = query;
-    if (date && clientId) {
-      options.where.date = date;
-      options.where.clientId = clientId;
-      // options.where.date = { [Op.gte]: date_min, [Op.lte]: date_max };
+    const { userId } = query;
+    if (userId) {
+      options.where.userId = userId;
     }
-    const invoices = await models.Invoice.findAll(options);
-    return invoices;
+    const companies = await models.Company.findAll(options);
+    return companies;
   }
 
   async findOne(id) {
-    const invoice = await models.Invoice.findByPk(id, {
+    const company = await models.Company.findByPk(id, {
       include: [
         {
-          model: models.Client,
-          as: 'client',
-          attributes: ['id', 'dni', 'firstName', 'lastName'],
-        },
-        {
-          model: models.Line,
-          as: 'lines',
-          attributes: ['id', 'description', 'amount'],
+          model: models.User,
+          as: 'user',
+          attributes: ['id', 'email', 'role', 'firstName', 'lastName'],
         }
       ],
     });
-    if (!invoice) {
-      throw boom.notFound('invoice not found');
+    if (!company) {
+      throw boom.notFound('company not found');
     }
-    return invoice;
+    return company;
   }
 
   async update(id, changes) {
-    const invoice = await this.findOne(id);
-    const { lines, ...newChanges } = changes;
-    await invoice.update(newChanges);
-    const newLines = lines.map(line => ({ ...line, invoiceId: invoice.id }));
-    for(const item of newLines) {
-      const line = await models.Line.findByPk(item.id);
-      if (line) {
-        await line.update(item);
-      } else {
-        await models.Line.create(item);
-      }
-    }
-    const rta = this.findOne(invoice.id);
+    const company = await this.findOne(id);
+    await company.update(changes);
+    const rta = this.findOne(company.id);
     return rta;
   }
 
   async delete(id) {
-    const invoice = await this.findOne(id);
-    await invoice.destroy();
+    const company = await this.findOne(id);
+    await company.destroy();
     return { id };
   }
 }
 
-module.exports = InvoicesService;
+module.exports = CompaniesService;

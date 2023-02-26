@@ -67,7 +67,7 @@ class AuthService {
       from: config.nodemailerUser, // sender address
       to: `${user.email}`, // list of receivers
       subject: "Este es un nuevo correo", // Subject line
-      text: "Hola santi", // plain text body
+      text: "Hola usuario", // plain text body
       html, // html body
     };
     const rta = await this.sendMail(mail);

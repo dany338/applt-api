@@ -9,7 +9,6 @@ const LocalStrategy = new Strategy({
 }, async (email, password, done) => {
     try {
       const user = await service.getUser(email, password);
-      console.log('🚀 ~ file: local.strategy.js ~ line 12 ~ user', user)
       done(null, user);
     } catch (error) {
       done(error, false);

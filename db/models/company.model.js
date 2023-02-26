@@ -21,10 +21,23 @@ const CompanySchema = {
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL',
   },
-  date: {
+  nit: {
     allowNull: false,
     type: DataTypes.STRING,
-    field: 'date_invoice',
+    unique: true,
+  },
+  name: {
+    allowNull: false,
+    type: DataTypes.STRING,
+    unique: true,
+  },
+  address: {
+    allowNull: false,
+    type: DataTypes.STRING,
+  },
+  phone: {
+    allowNull: false,
+    type: DataTypes.STRING,
   },
   createdAt: {
     allowNull: false,

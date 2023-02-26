@@ -1,31 +1,28 @@
 const Joi = require('joi');
 
 const id = Joi.number().integer();
-const clientId = Joi.number().integer();
-const date = Joi.date();
-const description = Joi.string().min(3).max(30);
-const amount = Joi.number().integer();
+const userId = Joi.number().integer();
+const name = Joi.string().min(3).max(30);
+const nit = Joi.string().min(3).max(30);
+const address = Joi.string().min(3).max(30);
+const phone = Joi.string().min(3).max(30);
 const limit = Joi.number().integer();
 const offset = Joi.number().integer();
 
-const linesSchema = Joi.array().items(
-  Joi.object({
-    id,
-    description: description.required(),
-    amount: amount.required(),
-  })
-);
-
 const createSchema = Joi.object({
-  clientId,
-  date,
-  lines: linesSchema.required(),
+  userId: userId.required(),
+  name: name.required(),
+  nit: nit.required(),
+  address: address.required(),
+  phone: phone.required(),
 });
 
 const updateSchema = Joi.object({
-  clientId,
-  date,
-  lines: linesSchema,
+  userId,
+  name,
+  nit,
+  address,
+  phone,
 });
 
 const getSchema = Joi.object({
@@ -33,13 +30,9 @@ const getSchema = Joi.object({
 });
 
 const querySchema = Joi.object({
-  limit,
-  offset,
-  date,
-  clientId: clientId.when('date', {
-    is: Joi.exist(),
-    then: Joi.required(),
-  }),
+  limit: limit.default(10).required(),
+  offset: offset.default(0).required(),
+  userId: userId.required(),
 });
 
 module.exports = { createSchema, updateSchema, getSchema, querySchema }

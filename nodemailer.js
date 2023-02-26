@@ -20,9 +20,9 @@ async function sendMail() {
       <p align="center">
         <span style="text-align: center;"><b>Hola daniel gallo</b></span><br />
         <span style="text-align: center;">&nbsp;</span><br />
-        <span style="text-align: center;">Parolitos</span><br />
+        <span style="text-align: center;">Envio data</span><br />
         <span style="text-align: center;">&nbsp;</span><br />
-        <span style="text-align: center;">Junitos animanias</span><br />
+        <span style="text-align: center;">Listados</span><br />
       </p>
       <br />
       <div style="width: 100%; height: 1px; background-color: red;"></div><br />
