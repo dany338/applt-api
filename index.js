@@ -12,6 +12,7 @@ app.use(express.urlencoded({limit: '500mb', extended: true }));
 
 const whitelist = [
   'https://fierce-earth-26491.herokuapp.com',
+  'https://applt-40300.web.app',
   'http://localhost:3000',
   'https://localhost:3001',
   'http://localhost:3002',
