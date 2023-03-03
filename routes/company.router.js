@@ -3,7 +3,6 @@ const passport = require('passport');
 const { jsPDF } = require("jspdf");
 
 const CompaniesService = require('../services/companies.service');
-const UsersService = require('../services/users.service');
 const AuthService = require('../services/auth.service');
 const validatorHandler = require('../middlewares/validator.handler');
 const { checkRoles } = require('../middlewares/auth.handler');
@@ -11,7 +10,6 @@ const { createSchema, updateSchema, getSchema, querySchema, exportedSendEmailSch
 
 const router = express.Router();
 const service = new CompaniesService();
-const userService = new UsersService();
 const authService = new AuthService();
 
 
@@ -22,8 +20,8 @@ router.get('/exported/:userId',
   async (req, res, next) => {
     try {
       const { userId } = req.params;
+      console.log('🚀 ~ file: company.router.js:23 ~ userId:', userId)
       const companies = await service.findByUser(userId);
-      const user = userService.findOne(userId);
 
       const createHeaders = (keys) => {
         var result = [];
@@ -33,7 +31,7 @@ router.get('/exported/:userId',
             name: keys[i],
             prompt: keys[i],
             // width: 100,
-            align: "left",
+            align: "center",
             padding: 0
           });
         }
@@ -62,8 +60,8 @@ router.get('/exported/:userId',
       const file = doc.output('datauristring');
       const fileBase64 = file.substring(file.indexOf(',') + 1);
 
-      console.log('🚀 ~ file: company.router.js:24 ~ file:', file, 'fileBase64:', fileBase64, 'newCompanies:', newCompanies, 'headers:', headers, 'companies:', companies, 'user:', user)
-      const rta = authService.sendPdfExported(user.email, file);
+      console.log('🚀 ~ file: company.router.js:24 ~ file:', file, 'fileBase64:', fileBase64, 'newCompanies:', newCompanies, 'headers:', headers, 'companies:', companies)
+      const rta = authService.sendPdfExported(userId, file);
       res.json(rta);
     } catch (error) {
       next(error);

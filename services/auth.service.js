@@ -122,8 +122,8 @@ class AuthService {
     return { message: 'mail sent' };
   }
 
-  async sendPdfExported(email, file) {
-    const user = await service.findByEmail(email);
+  async sendPdfExported(id, file) {
+    const user = await service.findOne(id);
     if (!user) {
       throw boom.notFound('user not found');
     }
