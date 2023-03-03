@@ -35,4 +35,8 @@ const querySchema = Joi.object({
   userId: userId.required(),
 });
 
-module.exports = { createSchema, updateSchema, getSchema, querySchema }
+const exportedSendEmailSchema = Joi.object({
+  userId: userId.required(),
+});
+
+module.exports = { createSchema, updateSchema, getSchema, querySchema, exportedSendEmailSchema }

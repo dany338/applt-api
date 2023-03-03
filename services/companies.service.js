@@ -12,8 +12,15 @@ class CompaniesService {
 
   async findByUser(userId) {
     const companies = await models.Company.findAll({
+      attributes: [
+        'id',
+        'nit',
+        'name',
+        'address',
+        'phone',
+      ],
       where: {
-        updatedUser: userId,
+        userId: userId,
       },
       include: [
         {
