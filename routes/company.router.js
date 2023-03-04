@@ -70,8 +70,6 @@ router.get('/exported/:userId',
 );
 
 router.get('/',
-  passport.authenticate('jwt', { session: false }),
-  checkRoles('admin', 'external'),
   validatorHandler(querySchema, 'query'),
   async (req, res, next) => {
     try {
