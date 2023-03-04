@@ -32,7 +32,7 @@ const getSchema = Joi.object({
 const querySchema = Joi.object({
   limit: limit.default(10).required(),
   offset: offset.default(0).required(),
-  userId: userId.required(),
+  userId: userId,
 });
 
 const exportedSendEmailSchema = Joi.object({
