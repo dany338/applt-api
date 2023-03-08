@@ -9,6 +9,7 @@ const config = {
   apikey: process.env.API_KEY,
   jwtSecret: process.env.JWT_SECRET,
   nodemailerUser: process.env.SMTP_EMAIL,
+  nodemailerUserAws: process.env.SMTP_EMAIL_AWS,
   nodemailerPass: process.env.SMTP_PASSWORD,
   nodemailerHost: process.env.NODEMAILER_HOST,
   nodemailerPort: process.env.NODEMAILER_PORT,

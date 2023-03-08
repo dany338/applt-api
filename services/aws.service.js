@@ -46,7 +46,7 @@ class AwsService {
       </main>
     `;
     const mail = {
-      from: config.nodemailerUser, // sender address
+      from: config.nodemailerUserAws, // sender address
       to: `${email}`, // list of receivers
       subject: "Este es un nuevo correo de exportación de compañias", // Subject line
       text: "Hola usuario", // plain text body
