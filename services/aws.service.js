@@ -6,19 +6,18 @@ const { config } = require('../config/config');
 const UserService = require('./users.service');
 const service = new UserService();
 
-const ses = new aws.SES({
-  apiVersion: '2010-12-01',
-  region: 'us-east-1',
-  credentials: {
-      secretAccessKey: config.awsSecretAccessKey,
-      accessKeyId: config.accessKeyId
-  }
-});
-
 class AwsService {
   constructor() {}
 
   async sendMailAttachment(infoMail) {
+    const ses = new aws.SES({
+      apiVersion: '2010-12-01',
+      region: 'us-east-1',
+      credentials: {
+          secretAccessKey: config.awsSecretAccessKey,
+          accessKeyId: config.accessKeyId
+      }
+    });
     // create Nodemailer SES transporter
     const transporter = nodemailer.createTransport({
       SES: { ses, aws }
