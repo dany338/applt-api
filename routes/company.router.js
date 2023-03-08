@@ -16,7 +16,7 @@ const awsService  = new AwsService();
 
 router.post('/exported',
   passport.authenticate('jwt', { session: false }),
-  checkRoles('admin', 'external'),
+  checkRoles('admin'),
   validatorHandler(exportedSendEmailSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -89,7 +89,7 @@ router.get('/',
 
 router.get('/:id',
   passport.authenticate('jwt', { session: false }),
-  checkRoles('admin', 'external'),
+  checkRoles('admin'),
   validatorHandler(getSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -104,7 +104,7 @@ router.get('/:id',
 
 router.post('/',
   passport.authenticate('jwt', { session: false }),
-  checkRoles('admin', 'external'),
+  checkRoles('admin'),
   validatorHandler(createSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -119,7 +119,7 @@ router.post('/',
 
 router.patch('/:id',
   passport.authenticate('jwt', { session: false }),
-  checkRoles('admin', 'external'),
+  checkRoles('admin'),
   validatorHandler(getSchema, 'params'),
   validatorHandler(updateSchema, 'body'),
   async (req, res, next) => {
