@@ -14,7 +14,7 @@ const service     = new CompaniesService();
 const authService = new AuthService();
 const awsService  = new AwsService();
 
-router.get('/exported',
+router.post('/exported',
   passport.authenticate('jwt', { session: false }),
   checkRoles('admin', 'external'),
   validatorHandler(exportedSendEmailSchema, 'body'),
