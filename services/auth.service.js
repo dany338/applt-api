@@ -122,7 +122,7 @@ class AuthService {
     return { message: 'mail sent' };
   }
 
-  async sendPdfExported(id, file) {
+  async sendPdfExported(id, email, file) {
     const user = await service.findOne(id);
     if (!user) {
       throw boom.notFound('user not found');
@@ -138,13 +138,13 @@ class AuthService {
         <div style="width: 100%; height: 1px; background-color: red;"></div><br />
         <p align="center">
           <a href="" rel="noopener">
-          <img width=200px height=200px src="https://drive.google.com/uc?export=view&id=1lXh66UaJXOf67HXmoTIgMRz55YxqA6G-" alt="People"></a>
+          <img width=200px height=200px src="https://drive.google.com/uc?export=view&id=1lXh66UaJXOf67HXmoTIgMRz55YxqA6G-" alt="Companies"></a>
         </p>
       </main>
     `;
     const mail = {
       from: config.nodemailerUser, // sender address
-      to: `${user.email}`, // list of receivers
+      to: `${email}`, // list of receivers
       subject: "Este es un nuevo correo de exportación de compañias", // Subject line
       text: "Hola usuario", // plain text body
       html, // html body

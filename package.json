@@ -23,7 +23,9 @@
     "prettier": "^2.7.1"
   },
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.282.0",
     "@hapi/boom": "^10.0.0",
+    "aws-sdk": "^2.1330.0",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",

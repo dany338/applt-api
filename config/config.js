@@ -13,6 +13,8 @@ const config = {
   nodemailerHost: process.env.NODEMAILER_HOST,
   nodemailerPort: process.env.NODEMAILER_PORT,
   nodemailerSecure: process.env.NODEMAILER_SECURE,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
 }
 
 module.exports = { config };

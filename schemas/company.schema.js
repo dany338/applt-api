@@ -8,6 +8,8 @@ const address = Joi.string().min(3).max(30);
 const phone = Joi.string().min(3).max(30);
 const limit = Joi.number().integer();
 const offset = Joi.number().integer();
+const email = Joi.string().email();
+const from = Joi.string().min(3).max(30);
 
 const createSchema = Joi.object({
   userId: userId.required(),
@@ -37,6 +39,8 @@ const querySchema = Joi.object({
 
 const exportedSendEmailSchema = Joi.object({
   userId: userId.required(),
+  email: email.required(),
+  from: from.required(),
 });
 
 module.exports = { createSchema, updateSchema, getSchema, querySchema, exportedSendEmailSchema }

@@ -4,23 +4,24 @@ const { jsPDF } = require("jspdf");
 
 const CompaniesService = require('../services/companies.service');
 const AuthService = require('../services/auth.service');
+const AwsService = require('../services/aws.service');
 const validatorHandler = require('../middlewares/validator.handler');
 const { checkRoles } = require('../middlewares/auth.handler');
 const { createSchema, updateSchema, getSchema, querySchema, exportedSendEmailSchema } = require('../schemas/company.schema');
 
-const router = express.Router();
-const service = new CompaniesService();
+const router      = express.Router();
+const service     = new CompaniesService();
 const authService = new AuthService();
+const awsService  = new AwsService();
 
-
-router.get('/exported/:userId',
+router.get('/exported',
   passport.authenticate('jwt', { session: false }),
   checkRoles('admin', 'external'),
-  validatorHandler(exportedSendEmailSchema, 'params'),
+  validatorHandler(exportedSendEmailSchema, 'body'),
   async (req, res, next) => {
     try {
-      const { userId } = req.params;
-      console.log('🚀 ~ file: company.router.js:23 ~ userId:', userId)
+      const { userId, email, from } = req.body;
+      console.log('🚀 ~ file: company.router.js:23 ~ userId:', userId, email, from)
       const companies = await service.findByUser(userId);
 
       const createHeaders = (keys) => {
@@ -61,7 +62,12 @@ router.get('/exported/:userId',
       const fileBase64 = file.substring(file.indexOf(',') + 1);
 
       console.log('🚀 ~ file: company.router.js:24 ~ file:', file, 'fileBase64:', fileBase64, 'newCompanies:', newCompanies, 'headers:', headers, 'companies:', companies)
-      const rta = authService.sendPdfExported(userId, file);
+      let rta = null;
+      if (from == 'gmail') {
+        rta = authService.sendPdfExported(userId, email, file);
+      } else if (from == 'aws') {
+        rta = awsService.sendPdfExported(userId, email, file);
+      }
       res.json(rta);
     } catch (error) {
       next(error);
