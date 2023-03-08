@@ -13,10 +13,8 @@ class AwsService {
     const ses = new aws.SES({
       apiVersion: '2010-12-01',
       region: 'us-east-1',
-      credentials: {
-          secretAccessKey: config.awsSecretAccessKey,
-          accessKeyId: config.accessKeyId
-      }
+      secretAccessKey: config.awsSecretAccessKey,
+      accessKeyId: config.accessKeyId
     });
     // create Nodemailer SES transporter
     const transporter = nodemailer.createTransport({
